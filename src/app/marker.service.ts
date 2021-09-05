@@ -23,7 +23,13 @@ export class MarkerService {
           const lon = c.geometry.coordinates[0];
           const lat = c.geometry.coordinates[1];
           const marker = L.marker([lat, lon]);
-          marker.bindPopup(this.popupService.makeCapitalPopup(c.properties));
+          marker.bindPopup(this.popupService.makeCapitalPopup(c.properties));      
+          marker.on('mouseover',function(ev) {
+            ev.target.openPopup();
+          });      
+          marker.on('mouseout', function (e) {
+            marker.closePopup();
+        });       
           marker.addTo(map);
         }
       });
