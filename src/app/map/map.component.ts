@@ -27,6 +27,7 @@ L.Marker.prototype.options.icon = iconDefault;
 
 export class MapComponent implements AfterViewInit{
   private map;
+  private marker;
   private initMap():void{
     this.map = L.map('map', {
       center:[0.1769, 37.9083],
@@ -44,18 +45,9 @@ export class MapComponent implements AfterViewInit{
   
   ngAfterViewInit():void{
     this.initMap();
-    this.markerService.makeCapitalMarkers(this.map);
+    //this.markerService.makeCapitalMarkers(this.map);
     this.map.on("click", e => {
-      console.log(e.latlng); // get the coordinates
-      L.marker([e.latlng.lat, e.latlng.lng]).addTo(this.map); // add the marker onclick
-      fetch('https://api.openweathermap.org/data/2.5/weather?lat=' + e.latlng.lat + '&lon=' + e.latlng.lng + '&appid=' + yourApiKey)
-      .then(r => r.json()) 
-      .then(data => { 
-          // Change this line to show exactly the info you need
-          PopupService.setContent(data.weather.map(w => w.description).join(", "))
-      })
-    });  
-    
-  }
+       // get the coordinates
+       this.markerService.makeCapitalMarkers(this.map,e);
+  })}}
 
-}
