@@ -2,6 +2,8 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import * as L from 'leaflet'
 import { MarkerService } from '../marker.service';
 import { PopupService } from '../popup.service';
+import "leaflet-control-geocoder/dist/Control.Geocoder.css";
+import "leaflet-control-geocoder/dist/Control.Geocoder.js";
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
@@ -47,7 +49,21 @@ export class MapComponent implements AfterViewInit{
     this.map.on("click", e => {
        this.markerService.makeCapitalMarkers(this.map,e);      
   });
-  L.Control.geocoder().addTo(this.map);
+  //var print =(L.Control as any).browserPrint().addTo(this.map);
+ var geocoder =(L.Control as any).geocoder(
+  {    
+    markersPopup: function( result ) {
+      this.popupService.makeCapitalPopup(this.data)
+      return result.properties.label;
+      }
+}
+ ).addTo(this.map)
+ .addControl((L.Control as any).geocoderControl('mapbox.places', {
+  autocomplete: true
+}));
+     geocoder.markGeocode = function(result) {
+       
+     };
 //   var searchLayer = L.layerGroup().addTo(this.map);
 // //... adding data in searchLayer ...
 // this.map.addControl( new L.Control.Search({layer: searchLayer}) );
