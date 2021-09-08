@@ -47,6 +47,7 @@ export class MapComponent implements AfterViewInit{
     this.map.on("click", e => {
        this.markerService.makeCapitalMarkers(this.map,e);      
   });
+  L.Control.geocoder().addTo(this.map);
 //   var searchLayer = L.layerGroup().addTo(this.map);
 // //... adding data in searchLayer ...
 // this.map.addControl( new L.Control.Search({layer: searchLayer}) );
