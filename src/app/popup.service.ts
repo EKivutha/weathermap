@@ -4,18 +4,15 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class PopupService {
-  static setContent: any;
-   setContent(w: any) {
-    return `` +
-    `<div>Capital: ${ w.cityname }</div>` +
-    `<div>State: ${ w.state }</div>` +
-    `<div>Population: ${ w.population }</div>`
-  }
+  
   constructor() { }
-  makeCapitalPopup(data: any): string{     
+  makeCapitalPopup(data: any): string{ 
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();    
     return `` +
-      `<div>Capital: ${ data.name }</div>` +
-      `<div>State: ${ data.state }</div>` +
-      `<div>Population: ${ data.population }</div>`
+      `<div>Temperature: ${data.main.temp} F</div>` +
+      `<div>Location: ${data.sys.country},${data.name}</div>` +
+      `<div>Weather: ${data.weather[0].description }</div>`+
+      `<div>Date: ${date}</div>`
   }}
 

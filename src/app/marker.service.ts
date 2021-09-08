@@ -19,27 +19,15 @@ export class MarkerService {
 //loop through the data and add a marker to the map 
 
     makeCapitalMarkers(map:L.Map,e):void { 
-
-      this.http.get('api.openweathermap.org/data/2.5/weather?lat=' + e.latlng.lat + '&lon=' + e.latlng.lng + '&appid= 33c3730c5f8b5b42fc6f67a3dd4746d2').subscribe((res: any)=> {
-        for (const c of res){
-          const lon = c.coord.lon;
-          const lat = c.coord.lat;
-          const marker = L.marker([lat, lon]);
-
+      const marker = L.marker([e.latlng.lng,e.latlng.lat]);
+      fetch('https://api.openweathermap.org/data/2.5/weather?lat=' + e.latlng.lat + '&lon=' + e.latlng.lng + '&appid=2e7774eae64d640eafb5606f4062b3b0')
+      .then(r => r.json())
+      .then(data => { 
+          // Change this line to show exactly the info you need          
+          console.log(data);
           marker.bindPopup(
-            // this.popupService.makeCapitalPopup(c.properties)
-            "You clicked the map at -<br>" + 
-            "<b>lon:</b> " +c.main.temp+"<br>" + 
-            "<b>lat:</b> " +c.weather.description+"<br>" 
-            );              
-            marker.on('mouseover',function(ev) {
-              ev.target.openPopup();               
-            });      
-            marker.on('mouseout', function (e) {
-              marker.closePopup();
-          });       
-            marker.addTo(map);
-          }
-        });
+          this.popupService.makeCapitalPopup(data));
+          marker.addTo(map);
+      });
        } 
 }
